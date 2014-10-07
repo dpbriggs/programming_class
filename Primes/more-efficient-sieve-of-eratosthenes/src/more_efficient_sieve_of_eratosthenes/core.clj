@@ -7,8 +7,10 @@
   (transient (vec (range 3 n 2))))
 
 (defn get-multiples-indices
+  "Returns seq of indexes that correspond to multiples of n"
   [start end n]
-  (for [y (range 1 end) :while (<= (+ start (* y n)) end)]
+  (for [y (range 1 end)
+        :while (<= (+ start (* y n)) end)]
     (+ start (* y n))))
 
 (defn mark-multiples
@@ -26,6 +28,7 @@
       (recur (inc stop)))))
 
 (defn sieve-e
+  "Implementation of sieve of eratosthenes"
   [n]
   (loop [coll (gen-table n)
          start 0]
@@ -34,6 +37,7 @@
       (recur coll (find-next-non-zero coll start)))))
 
 (defn write-to-file
+  "Writes collection of primes to a file called primes.txt"
   [primes]
   (let [new-line (System/getProperty "line.separator")
         info (clojure.string/join new-line primes)
@@ -41,9 +45,9 @@
     (spit (str home "/primes.txt") info)))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Computes primes and spits them to file"
   ([n]
-     (write-to-file (sieve-e n)))
+     (write-to-file (sieve-e (Integer. n))))
   ([]
      (do
        (time (write-to-file (sieve-e 1000000)))
