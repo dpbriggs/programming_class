@@ -10,7 +10,7 @@
   "Returns seq of indexes that correspond to multiples of n"
   [start end n]
   (for [y (range 1 end)
-        :while (<= (+ start (* y n)) end)]
+	:while (<= (+ start (* y n)) end)]
     (+ start (* y n))))
 
 (defn mark-multiples
@@ -31,8 +31,8 @@
   "Implementation of sieve of eratosthenes"
   [n]
   (loop [coll (gen-table n)
-         start 0]
-    (if (empty? (mark-multiples coll start))
+	 start 0]
+    (if (empty? (mark-multiples coll start)) ;; No more multiples to cross out
       (disj (apply sorted-set (into [2] (persistent! coll))) 0)
       (recur coll (find-next-non-zero coll start)))))
 
@@ -40,8 +40,8 @@
   "Writes collection of primes to a file called primes.txt"
   [primes]
   (let [new-line (System/getProperty "line.separator")
-        info (clojure.string/join new-line primes)
-        home (System/getProperty "user.home")]
+	info (clojure.string/join new-line primes)
+	home (System/getProperty "user.home")]
     (spit (str home "/primes.txt") info)))
 
 (defn -main
